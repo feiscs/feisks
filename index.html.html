@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CROSSAIMGG - Streamer Oficial | Twitch</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --twitch-purple: #9146FF;
+            --twitch-dark: #0E0E10;
+            --twitch-light: #F0F0F0;
+            --accent-cyan: #00D4FF;
+            --accent-pink: #FF0055;
+            --gradient-primary: linear-gradient(135deg, #9146FF 0%, #00D4FF 100%);
+            --gradient-secondary: linear-gradient(135deg, #FF0055 0%, #9146FF 100%);
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background-color: var(--twitch-dark);
+            color: var(--twitch-light);
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 20px 50px;
+            background: rgba(14, 14, 16, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--twitch-purple);
+        }
+
+        .logo {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2rem;
+            font-weight: 900;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { filter: drop-shadow(0 0 5px var(--twitch-purple)); }
+            to { filter: drop-shadow(0 0 20px var(--accent-cyan)); }
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--twitch-light);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            position: relative;
+            transition: all 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient-primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            margin-top: 80px;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(145, 70, 255, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 212, 255, 0.2) 0%, transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(255, 0, 85, 0.2) 0%, transparent 50%);
+            animation: bgMove 20s ease infinite;
+        }
+
+        @keyframes bgMove {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-20px, -20px); }
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 10;
+            padding: 20px;
+        }
+
+        .hero h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 5rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            animation: titlePulse 3s ease-in-out infinite;
+        }
+
+        @keyframes titlePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .hero-subtitle {
+            font-size: 1.8rem;
+            color: var(--accent-cyan);
+            margin-bottom: 30px;
+            font-weight: 300;
+            letter-spacing: 3px;
+        }
+
+        .hero-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(145, 70, 255, 0.2);
+            padding: 15px 30px;
+            border-radius: 50px;
+            border: 2px solid var(--twitch-purple);
+            margin-bottom: 40px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(145, 70, 255, 0.7); }
+            50% { box-shadow: 0 0 0 20px rgba(145, 70, 255, 0); }
+        }
+
+        .live-dot {
+            width: 12px;
+            height: 12px;
+            background: #FF0000;
+            border-radius: 50%;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 15px 40px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: var(--gradient-primary);
+            color: white;
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--accent-cyan);
+            border: 2px solid var(--accent-cyan);
+            clip-path: polygon(10% 0, 100% 0, 90% 100%, 0% 100%);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(145, 70, 255, 0.5);
+        }
+
+        .btn-primary:hover {
+            background: var(--gradient-secondary);
+        }
+
+        /* Stats Section */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            padding: 80px 50px;
+            background: linear-gradient(180deg, transparent 0%, rgba(145, 70, 255, 0.1) 100%);
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(145, 70, 255, 0.3);
+            border-radius: 15px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(145, 70, 255, 0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .stat-card:hover::before {
+            left: 100%;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--accent-cyan);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.2);
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            font-weight: 900;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 10px;
+        }
+
+        /* About Section */
+        .about {
+            padding: 100px 50px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .about-image {
+            position: relative;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 20px;
+            box-shadow: 0 30px 60px rgba(145, 70, 255, 0.3);
+        }
+
+        .about-image::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            right: 20px;
+            bottom: 20px;
+            border: 3px solid var(--twitch-purple);
+            border-radius: 20px;
+            z-index: -1;
+        }
+
+        .about-content h2 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            margin-bottom: 20px;
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .about-content p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #ccc;
+            margin-bottom: 20px;
+        }
+
+        .tags {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            margin-top: 30px;
+        }
+
+        .tag {
+            padding: 8px 20px;
+            background: rgba(145, 70, 255, 0.2);
+            border: 1px solid var(--twitch-purple);
+            border-radius: 25px;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+
+        .tag:hover {
+            background: var(--twitch-purple);
+            transform: scale(1.05);
+        }
+
+        /* Schedule Section */
+        .schedule {
+            padding: 100px 50px;
+            background: linear-gradient(180deg, rgba(145, 70, 255, 0.1) 0%, transparent 100%);
+        }
+
+        .section-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 3rem;
+            text-align: center;
+            margin-bottom: 60px;
+            background: var(--gradient-primary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .day-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            padding: 30px;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .day-card.active {
+            border-color: var(--twitch-purple);
+            background: rgba(145, 70, 255, 0.1);
+        }
+
+        .day-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+        }
+
+        .day-name {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--accent-cyan);
+        }
+
+        .day-time {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .day-game {
+            color: #888;
+            font-size: 1rem;
+        }
+
+        .live-badge {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #FF0000;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            animation: pulse 2s infinite;
+        }
+
+        /* Twitch Embed Section */
+        .twitch-section {
+            padding: 100px 50px;
+            text-align: center;
+        }
+
+        .twitch-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            padding: 40px;
+            border: 2px solid var(--twitch-purple);
+        }
+
+        .twitch-embed-placeholder {
+            width: 100%;
+            height: 600px;
+            background: linear-gradient(135deg, rgba(145, 70, 255, 0.2) 0%, rgba(0, 212, 255, 0.2) 100%);
+            border-radius: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            border: 2px dashed var(--twitch-purple);
+        }
+
+        .twitch-embed-placeholder i {
+            font-size: 5rem;
+            color: var(--twitch-purple);
+        }
+
+        .twitch-embed-placeholder p {
+            font-size: 1.5rem;
+            color: #888;
+        }
+
+        /* Social Section */
+        .social {
+            padding: 100px 50px;
+            text-align: center;
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.5) 100%);
+        }
+
+        .social-grid {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: white;
+            text-decoration: none;
+            position: relative;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid transparent;
+        }
+
+        .social-link::before {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 50%;
+            padding: 2px;
+            background: var(--gradient-primary);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+        }
+
+        .social-link:hover {
+            transform: translateY(-10px) rotate(360deg);
+            background: var(--twitch-purple);
+        }
+
+        .social-link.twitch:hover { background: #9146FF; }
+        .social-link.twitter:hover { background: #1DA1F2; }
+        .social-link.instagram:hover { background: #E4405F; }
+        .social-link.discord:hover { background: #5865F2; }
+        .social-link.youtube:hover { background: #FF0000; }
+
+        /* Footer */
+        footer {
+            padding: 40px;
+            text-align: center;
+            border-top: 2px solid var(--twitch-purple);
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        footer p {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        footer span {
+            color: var(--twitch-purple);
+            font-weight: 700;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .nav-links { display: none; }
+            .about { grid-template-columns: 1fr; }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="logo">CROSSAIMGG</div>
+        <ul class="nav-links">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#sobre">Sobre Mí</a></li>
+            <li><a href="#horario">Horario</a></li>
+            <li><a href="#stream">En Vivo</a></li>
+            <li><a href="#social">Redes</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="inicio">
+        <div class="hero-bg"></div>
+        <div class="hero-content">
+            <div class="hero-status">
+                <div class="live-dot"></div>
+                <span>EN VIVO AHORA</span>
+            </div>
+            <h1>CROSSAIMGG</h1>
+            <p class="hero-subtitle">Streamer • Gamer • Content Creator</p>
+            <div class="cta-buttons">
+                <a href="https://twitch.tv/crossaimgg" target="_blank" class="btn btn-primary">
+                    <i class="fab fa-twitch"></i> Ver Stream
+                </a>
+                <a href="#social" class="btn btn-secondary">Seguir</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stat-card fade-in">
+            <div class="stat-number" data-target="125000">0</div>
+            <div class="stat-label">Seguidores</div>
+        </div>
+        <div class="stat-card fade-in">
+            <div class="stat-number" data-target="8500">0</div>
+            <div class="stat-label">Viewers AVG</div>
+        </div>
+        <div class="stat-card fade-in">
+            <div class="stat-number" data-target="1500">0</div>
+            <div class="stat-label">Días Streameando</div>
+        </div>
+        <div class="stat-card fade-in">
+            <div class="stat-number" data-target="50000">0</div>
+            <div class="stat-label">Horas Vistas</div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about" id="sobre">
+        <div class="about-image fade-in">
+            <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80" alt="Gaming Setup">
+        </div>
+        <div class="about-content fade-in">
+            <h2>Sobre CROSSAIMGG</h2>
+            <p>¡Bienvenidos a mi canal! Soy CROSSAIMGG, streamer dedicado a crear contenido de calidad y entretenimiento en vivo. Especializado en Just Chatting, VALORANT y sesiones de gaming épicas.</p>
+            <p>Mi objetivo es construir una comunidad positiva donde todos puedan divertirse, aprender y compartir momentos inolvidables juntos. ¡Únete a la familia!</p>
+            <div class="tags">
+                <span class="tag">Just Chatting</span>
+                <span class="tag">VALORANT</span>
+                <span class="tag">Gaming</span>
+                <span class="tag">IRL</span>
+                <span class="tag">Esports</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule Section -->
+    <section class="schedule" id="horario">
+        <h2 class="section-title">Horario de Streams</h2>
+        <div class="schedule-grid">
+            <div class="day-card active fade-in">
+                <div class="live-badge">LIVE</div>
+                <div class="day-name">Lunes</div>
+                <div class="day-time">20:00 - 00:00</div>
+                <div class="day-game">Just Chatting & VALORANT</div>
+            </div>
+            <div class="day-card fade-in">
+                <div class="day-name">Martes</div>
+                <div class="day-time">19:00 - 23:00</div>
+                <div class="day-game">Gaming Variety</div>
+            </div>
+            <div class="day-card fade-in">
+                <div class="day-name">Miércoles</div>
+                <div class="day-time">20:00 - 00:00</div>
+                <div class="day-game">VALORANT Competitive</div>
+            </div>
+            <div class="day-card fade-in">
+                <div class="day-name">Jueves</div>
+                <div class="day-time">DESCANSO</div>
+                <div class="day-game">No hay stream</div>
+            </div>
+            <div class="day-card active fade-in">
+                <div class="day-name">Viernes</div>
+                <div class="day-time">21:00 - 02:00</div>
+                <div class="day-game">IRL & Party Games</div>
+            </div>
+            <div class="day-card fade-in">
+                <div class="day-name">Sábado</div>
+                <div class="day-time">18:00 - 00:00</div>
+                <div class="day-game">Maratón de Gaming</div>
+            </div>
+            <div class="day-card fade-in">
+                <div class="day-name">Domingo</div>
+                <div class="day-time">19:00 - 23:00</div>
+                <div class="day-game">Chill & Community Games</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Twitch Embed Section -->
+    <section class="twitch-section" id="stream">
+        <h2 class="section-title">Stream en Vivo</h2>
+        <div class="twitch-container fade-in">
+            <div class="twitch-embed-placeholder">
+                <i class="fab fa-twitch"></i>
+                <p>Embed del Stream de Twitch</p>
+                <a href="https://twitch.tv/crossaimgg" target="_blank" class="btn btn-primary">
+                    Ver en Twitch.tv
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Section -->
+    <section class="social" id="social">
+        <h2 class="section-title">Sígueme en Redes</h2>
+        <div class="social-grid">
+            <a href="https://twitch.tv/crossaimgg" target="_blank" class="social-link twitch">
+                <i class="fab fa-twitch"></i>
+            </a>
+            <a href="#" class="social-link twitter">
+                <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="social-link instagram">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="#" class="social-link discord">
+                <i class="fab fa-discord"></i>
+            </a>
+            <a href="#" class="social-link youtube">
+                <i class="fab fa-youtube"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 <span>CROSSAIMGG</span> - Todos los derechos reservados</p>
+    </footer>
+
+    <script>
+        // Animated counter
+        const counters = document.querySelectorAll('.stat-number');
+        const speed = 200;
+
+        const animateCounter = (counter) => {
+            const target = +counter.getAttribute('data-target');
+            const count = +counter.innerText;
+            const inc = target / speed;
+
+            if (count < target) {
+                counter.innerText = Math.ceil(count + inc);
+                setTimeout(() => animateCounter(counter), 20);
+            } else {
+                counter.innerText = target.toLocaleString();
+            }
+        };
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: "0px 0px -50px 0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+
+                    if (entry.target.classList.contains('stat-number')) {
+                        animateCounter(entry.target);
+                    }
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in, .stat-number').forEach(el => observer.observe(el));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Parallax effect for hero
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero-bg');
+            if (hero) {
+                hero.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    </script>
+</body>
+</html>
